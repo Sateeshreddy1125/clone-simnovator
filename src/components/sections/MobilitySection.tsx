@@ -41,7 +41,10 @@ const MobilitySection = () => {
   };
 
   const handleTripTypeChange = (value: string) => {
-    updateFormData("mobility", { tripType: value });
+    // Cast the value to the expected type
+    updateFormData("mobility", { 
+      tripType: value as "Bidirectional" | "Stationary" | "Unidirectional" 
+    });
   };
 
   const handleInputChange = (field: keyof typeof mobilityData, value: string) => {
