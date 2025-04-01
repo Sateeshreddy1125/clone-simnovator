@@ -1,12 +1,62 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import FormStepper from "@/components/FormStepper";
+import { useFormContext } from "@/context/FormContext";
+import CellSection from "@/components/sections/CellSection";
+import SubscriberSection from "@/components/sections/SubscriberSection";
+import UserPlaneSection from "@/components/sections/UserPlaneSection";
+import TrafficSection from "@/components/sections/TrafficSection";
+import MobilitySection from "@/components/sections/MobilitySection";
+import SettingsSection from "@/components/sections/SettingsSection";
+import { ArrowClockwise } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
+  const { currentStep } = useFormContext();
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return <CellSection />;
+      case 1:
+        return <SubscriberSection />;
+      case 2:
+        return <UserPlaneSection />;
+      case 3:
+        return <TrafficSection />;
+      case 4:
+        return <MobilitySection />;
+      case 5:
+        return <SettingsSection />;
+      default:
+        return <CellSection />;
+    }
+  };
+
+  const handleClearLocalStorage = () => {
+    localStorage.removeItem("networkScenarioData");
+    window.location.reload();
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-[#E3EBE9]">
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-xl font-bold text-gray-800">Test Case List / Create Test Case</h1>
+          <Button 
+            onClick={handleClearLocalStorage}
+            variant="ghost" 
+            className="flex items-center gap-2"
+          >
+            <ArrowClockwise className="h-4 w-4" />
+            <span className="sr-only">Reset</span>
+          </Button>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 py-6">
+        <FormStepper />
+        {renderStep()}
+      </main>
     </div>
   );
 };
