@@ -6,7 +6,6 @@ export interface FormData {
   traffic: TrafficData;
   mobility: MobilityData;
   settings: SettingsData;
-  currentStep: number;
 }
 
 export interface CellData {

@@ -2,10 +2,11 @@
 import { PropsWithChildren } from "react";
 import { Button } from "@/components/ui/button";
 import { useFormContext } from "@/context/FormContext";
+import { FormData } from "@/types";
 
 interface FormLayoutProps extends PropsWithChildren {
   title: string;
-  sectionKey: string;
+  sectionKey: keyof FormData;  // Update this to use keyof FormData
   onNext?: () => boolean;
   isLast?: boolean;
 }
