@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useFormContext } from "@/context/FormContext";
 import FormLayout from "@/components/FormLayout";
@@ -117,7 +118,7 @@ const CellSection = () => {
     updateFormData("cell", { cells: updatedCells });
   };
 
-  const updateCellField = (field: keyof CellConfigData, value: string, cellIndex: number) => {
+  const updateCellField = (field: keyof CellConfigData, value: any, cellIndex: number) => {
     const updatedCells = [...cellData.cells];
     updatedCells[cellIndex][field] = value;
     updateFormData("cell", { cells: updatedCells });

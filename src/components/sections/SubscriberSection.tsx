@@ -19,7 +19,7 @@ const SubscriberSection = () => {
     updateFormData("subscriber", { totalUEs });
   };
 
-  const updateRange = (index: number, field: keyof SubscriberRangeData, value: string) => {
+  const updateRange = (index: number, field: keyof SubscriberRangeData, value: any) => {
     const updatedRanges = [...subscriberData.ranges];
     
     if (field === "numberOfUEs" || field === "servingCell" || field === "startingSUPI" || 
