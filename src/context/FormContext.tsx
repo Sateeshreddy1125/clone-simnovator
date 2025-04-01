@@ -27,7 +27,7 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("networkScenarioData", JSON.stringify(formData));
   }, [formData]);
 
-  const updateFormData = (section: keyof FormData, data: any) => {
+  const updateFormData = (section: keyof FormData, data: Record<string, any>) => {
     setFormData((prev) => ({
       ...prev,
       [section]: { ...prev[section], ...data },

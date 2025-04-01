@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useFormContext } from "@/context/FormContext";
 import FormLayout from "@/components/FormLayout";
@@ -73,14 +72,18 @@ const CellSection = () => {
         ? fddBandToEarfcn[defaultBand] 
         : tddBandToEarfcn[defaultBand];
       
-      updatedCells[cellIndex].dlEarfcn = earfcnValues?.dl || "";
-      updatedCells[cellIndex].ulEarfcn = earfcnValues?.ul || "";
+      if (earfcnValues) {
+        updatedCells[cellIndex].dlEarfcn = earfcnValues.dl || "";
+        updatedCells[cellIndex].ulEarfcn = earfcnValues.ul || "";
+      }
     } else {
       // For 5G
       const arfcnValues = bandToNrArfcn[defaultBand];
-      updatedCells[cellIndex].dlEarfcn = arfcnValues?.dl || "";
-      updatedCells[cellIndex].ulEarfcn = arfcnValues?.ul || "";
-      updatedCells[cellIndex].ssbNrArfcn = arfcnValues?.ssb || "";
+      if (arfcnValues) {
+        updatedCells[cellIndex].dlEarfcn = arfcnValues.dl || "";
+        updatedCells[cellIndex].ulEarfcn = arfcnValues.ul || "";
+        updatedCells[cellIndex].ssbNrArfcn = arfcnValues.ssb || "";
+      }
     }
     
     updateFormData("cell", { cells: updatedCells });
@@ -97,14 +100,18 @@ const CellSection = () => {
         ? fddBandToEarfcn[band] 
         : tddBandToEarfcn[band];
       
-      updatedCells[cellIndex].dlEarfcn = earfcnValues?.dl || "";
-      updatedCells[cellIndex].ulEarfcn = earfcnValues?.ul || "";
+      if (earfcnValues) {
+        updatedCells[cellIndex].dlEarfcn = earfcnValues.dl || "";
+        updatedCells[cellIndex].ulEarfcn = earfcnValues.ul || "";
+      }
     } else {
       // For 5G
       const arfcnValues = bandToNrArfcn[band];
-      updatedCells[cellIndex].dlEarfcn = arfcnValues?.dl || "";
-      updatedCells[cellIndex].ulEarfcn = arfcnValues?.ul || "";
-      updatedCells[cellIndex].ssbNrArfcn = arfcnValues?.ssb || "";
+      if (arfcnValues) {
+        updatedCells[cellIndex].dlEarfcn = arfcnValues.dl || "";
+        updatedCells[cellIndex].ulEarfcn = arfcnValues.ul || "";
+        updatedCells[cellIndex].ssbNrArfcn = arfcnValues.ssb || "";
+      }
     }
     
     updateFormData("cell", { cells: updatedCells });

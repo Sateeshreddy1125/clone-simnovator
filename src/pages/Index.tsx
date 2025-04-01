@@ -7,7 +7,7 @@ import UserPlaneSection from "@/components/sections/UserPlaneSection";
 import TrafficSection from "@/components/sections/TrafficSection";
 import MobilitySection from "@/components/sections/MobilitySection";
 import SettingsSection from "@/components/sections/SettingsSection";
-import { ArrowClockwise } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -47,7 +47,7 @@ const Index = () => {
             variant="ghost" 
             className="flex items-center gap-2"
           >
-            <ArrowClockwise className="h-4 w-4" />
+            <RotateCcw className="h-4 w-4" />
             <span className="sr-only">Reset</span>
           </Button>
         </div>

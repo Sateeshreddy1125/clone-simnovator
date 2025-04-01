@@ -25,7 +25,7 @@ const UserPlaneSection = () => {
 
   const handleProfileTypeChange = (value: string) => {
     updateFormData("userPlane", { 
-      profileType: value,
+      profileType: value as "Single" | "Mixed",
       // Reset profiles to one if changing to Single
       profiles: value === "Single" ? [userPlaneData.profiles[0]] : userPlaneData.profiles
     });
@@ -33,27 +33,38 @@ const UserPlaneSection = () => {
 
   const updateProfile = (index: number, field: keyof UserPlaneProfileData, value: string) => {
     const updatedProfiles = [...userPlaneData.profiles];
-    updatedProfiles[index][field] = value;
     
-    // Handle special cases for data type
-    if (field === "dataType") {
-      if (value === "IPERF") {
-        updatedProfiles[index].transportProtocol = "TCP";
-        delete updatedProfiles[index].callType;
-      } else if (value === "VOLTE/VILTE") {
-        updatedProfiles[index].callType = "Audio";
-        delete updatedProfiles[index].transportProtocol;
+    // Make sure we only update valid fields
+    const validFields: (keyof UserPlaneProfileData)[] = [
+      "id", "subscriberRange", "dataType", "transportProtocol", "callType", 
+      "startingPort", "apnName", "startDelay", "duration", "dataDirection",
+      "dlBitrate", "dlBitrateUnit", "ulBitrate", "ulBitrateUnit"
+    ];
+    
+    if (validFields.includes(field)) {
+      // Using type assertion to handle the property assignment
+      (updatedProfiles[index] as any)[field] = value;
+      
+      // Handle special cases for data type
+      if (field === "dataType") {
+        if (value === "IPERF") {
+          updatedProfiles[index].transportProtocol = "TCP";
+          delete (updatedProfiles[index] as any).callType;
+        } else if (value === "VOLTE/VILTE") {
+          updatedProfiles[index].callType = "Audio";
+          delete (updatedProfiles[index] as any).transportProtocol;
+        }
       }
-    }
-    
-    // Handle special case for data direction
-    if (field === "dataDirection" && value !== "Both") {
-      if (value === "Downlink") {
-        delete updatedProfiles[index].ulBitrate;
-        delete updatedProfiles[index].ulBitrateUnit;
-      } else if (value === "Uplink") {
-        delete updatedProfiles[index].dlBitrate;
-        delete updatedProfiles[index].dlBitrateUnit;
+      
+      // Handle special case for data direction
+      if (field === "dataDirection" && value !== "Both") {
+        if (value === "Downlink") {
+          delete (updatedProfiles[index] as any).ulBitrate;
+          delete (updatedProfiles[index] as any).ulBitrateUnit;
+        } else if (value === "Uplink") {
+          delete (updatedProfiles[index] as any).dlBitrate;
+          delete (updatedProfiles[index] as any).dlBitrateUnit;
+        }
       }
     }
     

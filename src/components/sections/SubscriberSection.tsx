@@ -21,7 +21,12 @@ const SubscriberSection = () => {
 
   const updateRange = (index: number, field: keyof SubscriberRangeData, value: string) => {
     const updatedRanges = [...subscriberData.ranges];
-    updatedRanges[index][field] = value;
+    
+    if (field === "numberOfUEs" || field === "servingCell" || field === "startingSUPI" || 
+        field === "sharedKey" || field === "mncDigits") {
+      updatedRanges[index][field] = value;
+    }
+    
     updateFormData("subscriber", { ranges: updatedRanges });
   };
 
