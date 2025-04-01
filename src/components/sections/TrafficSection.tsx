@@ -26,7 +26,9 @@ const TrafficSection = () => {
   };
 
   const handleAttachTypeChange = (value: string) => {
-    updateFormData("traffic", { attachType: value });
+    updateFormData("traffic", { 
+      attachType: value as "Bursty" | "Staggered" 
+    });
   };
 
   const handleInputChange = (field: keyof typeof trafficData, value: string) => {

@@ -24,24 +24,29 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentStep, setCurrentStep] = useState<number>(formData.currentStep || 0);
 
   useEffect(() => {
-    localStorage.setItem("networkScenarioData", JSON.stringify(formData));
-  }, [formData]);
+    localStorage.setItem("networkScenarioData", JSON.stringify({...formData, currentStep}));
+  }, [formData, currentStep]);
 
   const updateFormData = <K extends keyof FormData>(section: K, data: Partial<FormData[K]>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: { ...prev[section], ...data },
-    }));
+    setFormData((prev) => {
+      const sectionData = {...prev[section]};
+      const updatedSection = {...sectionData, ...data};
+      
+      return {
+        ...prev,
+        [section]: updatedSection
+      };
+    });
   };
 
   const saveFormData = (section: string) => {
-    localStorage.setItem("networkScenarioData", JSON.stringify(formData));
+    localStorage.setItem("networkScenarioData", JSON.stringify({...formData, currentStep}));
     console.log(`${section} data saved:`, formData[section as keyof FormData]);
     toast.success(`${section} data saved successfully!`);
   };
 
   const submitForm = () => {
-    localStorage.setItem("networkScenarioData", JSON.stringify(formData));
+    localStorage.setItem("networkScenarioData", JSON.stringify({...formData, currentStep}));
     console.log("Full form data submitted:", formData);
     toast.success("Network scenario configuration created successfully!");
   };

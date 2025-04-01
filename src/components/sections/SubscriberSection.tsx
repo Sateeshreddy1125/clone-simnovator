@@ -22,9 +22,10 @@ const SubscriberSection = () => {
   const updateRange = (index: number, field: keyof SubscriberRangeData, value: string | number) => {
     const updatedRanges = [...subscriberData.ranges];
     
-    if (field === "numberOfUEs" || field === "servingCell" || field === "startingSUPI" || 
-        field === "sharedKey" || field === "mncDigits") {
-      updatedRanges[index][field] = value;
+    if (field === "numberOfUEs") {
+      updatedRanges[index][field] = typeof value === 'number' ? value : parseInt(value as string) || 0;
+    } else if (field === "servingCell" || field === "startingSUPI" || field === "sharedKey" || field === "mncDigits") {
+      updatedRanges[index][field] = value.toString();
     }
     
     updateFormData("subscriber", { ranges: updatedRanges });
@@ -131,7 +132,10 @@ const SubscriberSection = () => {
                 id={`servingCell-${index}`}
                 value={range.servingCell}
                 onChange={(value) => updateRange(index, "servingCell", value)}
-                options={cellOptions}
+                options={formData.cell.cells.map(cell => ({
+                  label: `Cell #${cell.id.replace("cell", "")}`,
+                  value: cell.id
+                }))}
                 required
               />
               

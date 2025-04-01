@@ -12,6 +12,18 @@ const SettingsSection = () => {
     updateFormData("settings", { [field]: value });
   };
 
+  const handleLogSettingChange = (value: string) => {
+    updateFormData("settings", { 
+      logSetting: value as "debug" | "error" | "rrc_debug" 
+    });
+  };
+
+  const handleSuccessSettingsChange = (value: string) => {
+    updateFormData("settings", { 
+      successSettings: value as "new21" | "Bler Success" | "Throughput Success" 
+    });
+  };
+
   const validateForm = () => {
     // Check required fields
     if (
@@ -47,7 +59,7 @@ const SettingsSection = () => {
             label="Log Setting"
             id="logSetting"
             value={settingsData.logSetting}
-            onChange={(value) => handleInputChange("logSetting", value as any)}
+            onChange={handleLogSettingChange}
             options={logSettingOptions}
             required
           />
@@ -56,7 +68,7 @@ const SettingsSection = () => {
             label="Success Settings"
             id="successSettings"
             value={settingsData.successSettings}
-            onChange={(value) => handleInputChange("successSettings", value as any)}
+            onChange={handleSuccessSettingsChange}
             options={successSettingsOptions}
             required
           />

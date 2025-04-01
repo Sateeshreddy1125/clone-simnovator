@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useFormContext } from "@/context/FormContext";
 import FormLayout from "@/components/FormLayout";
@@ -34,10 +35,11 @@ const CellSection = () => {
     }
   }, []);
 
-  const handleRatTypeChange = (ratType: "4G" | "5G:SA" | "5G:NSA") => {
+  const handleRatTypeChange = (ratType: string) => {
+    const typedRatType = ratType as "4G" | "5G:SA" | "5G:NSA";
     let updatedCells: CellConfigData[];
     
-    switch (ratType) {
+    switch (typedRatType) {
       case "4G":
         updatedCells = [default4GCell];
         break;
@@ -51,15 +53,20 @@ const CellSection = () => {
         updatedCells = [default4GCell];
     }
     
-    updateFormData("cell", { ratType, cells: updatedCells });
+    updateFormData("cell", { ratType: typedRatType, cells: updatedCells });
+  };
+
+  const handleMobilityChange = (value: string) => {
+    updateFormData("cell", { mobility: value as "Yes" | "No" });
   };
 
   const handleDuplexModeChange = (duplexMode: string, cellIndex: number) => {
+    const typedDuplexMode = duplexMode as "FDD" | "TDD";
     const updatedCells = [...cellData.cells];
-    updatedCells[cellIndex].duplexMode = duplexMode as "FDD" | "TDD";
+    updatedCells[cellIndex].duplexMode = typedDuplexMode;
     
     // Update bands based on duplex mode
-    const newBands = duplexMode === "FDD" ? fddBands : tddBands;
+    const newBands = typedDuplexMode === "FDD" ? fddBands : tddBands;
     setBands(newBands);
     
     // Select first band from the new list and update values
@@ -68,7 +75,7 @@ const CellSection = () => {
     
     // Update EARFCN values based on band
     if (updatedCells[cellIndex].cellType === "4G" || updatedCells[cellIndex].cellType === "LTE") {
-      const earfcnValues = duplexMode === "FDD" 
+      const earfcnValues = typedDuplexMode === "FDD" 
         ? fddBandToEarfcn[defaultBand] 
         : tddBandToEarfcn[defaultBand];
       
@@ -119,7 +126,15 @@ const CellSection = () => {
 
   const updateCellField = (field: keyof CellConfigData, value: string | number, cellIndex: number) => {
     const updatedCells = [...cellData.cells];
-    updatedCells[cellIndex][field] = value as CellConfigData[keyof CellConfigData];
+    
+    if (field === "cellType") {
+      updatedCells[cellIndex][field] = value as "4G" | "5G" | "LTE";
+    } else if (field === "duplexMode") {
+      updatedCells[cellIndex][field] = value as "FDD" | "TDD";
+    } else {
+      updatedCells[cellIndex][field] = value.toString();
+    }
+    
     updateFormData("cell", { cells: updatedCells });
   };
 
@@ -167,7 +182,7 @@ const CellSection = () => {
             label="RAT Type"
             id="ratType"
             value={cellData.ratType}
-            onChange={(value) => handleRatTypeChange(value as "4G" | "5G:SA" | "5G:NSA")}
+            onChange={handleRatTypeChange}
             options={ratTypeOptions}
             required
           />
@@ -176,7 +191,7 @@ const CellSection = () => {
             label="Mobility"
             id="mobility"
             value={cellData.mobility}
-            onChange={(value) => updateFormData("cell", { mobility: value })}
+            onChange={handleMobilityChange}
             options={mobilityOptions}
             required
           />
