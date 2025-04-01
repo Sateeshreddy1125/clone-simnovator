@@ -19,7 +19,7 @@ const SubscriberSection = () => {
     updateFormData("subscriber", { totalUEs });
   };
 
-  const updateRange = (index: number, field: keyof SubscriberRangeData, value: any) => {
+  const updateRange = (index: number, field: keyof SubscriberRangeData, value: string | number) => {
     const updatedRanges = [...subscriberData.ranges];
     
     if (field === "numberOfUEs" || field === "servingCell" || field === "startingSUPI" || 
@@ -121,7 +121,7 @@ const SubscriberSection = () => {
                 label="# of UEs"
                 id={`numberOfUEs-${index}`}
                 value={range.numberOfUEs}
-                onChange={(value) => updateRange(index, "numberOfUEs", value)}
+                onChange={(value) => updateRange(index, "numberOfUEs", parseInt(value) || 0)}
                 type="number"
                 required
               />

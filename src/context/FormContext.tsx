@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 interface FormContextProps {
   formData: FormData;
-  updateFormData: (section: keyof FormData, data: any) => void;
+  updateFormData: <K extends keyof FormData>(section: K, data: Partial<FormData[K]>) => void;
   currentStep: number;
   setCurrentStep: (step: number) => void;
   saveFormData: (section: string) => void;
@@ -27,7 +27,7 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("networkScenarioData", JSON.stringify(formData));
   }, [formData]);
 
-  const updateFormData = (section: keyof FormData, data: Record<string, any>) => {
+  const updateFormData = <K extends keyof FormData>(section: K, data: Partial<FormData[K]>) => {
     setFormData((prev) => ({
       ...prev,
       [section]: { ...prev[section], ...data },
